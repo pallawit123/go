@@ -158,3 +158,70 @@
 // 	j = strconv.Itoa(i)
 // 	fmt.Printf("%v, %T\n", j, j)
 // }
+
+// using the complex function also change the varibale in complex format. 
+// package main
+// import(	
+// 	"fmt"
+// )
+// func main() {
+// 	var n complex128 = complex(1,2)
+// 	fmt.Printf("%v,%T\n", n, n)
+// 	}
+
+// text types
+// there are two types of text types in go language
+// 1. string
+// 2. rune
+
+// string
+// package main
+// import(
+// 	"fmt"
+// )
+// func main() {	
+// 	s := "hi my name is ......."
+// 	fmt.Printf("%v,%T\n", s, s)
+// }
+
+// string can be treated like an arry
+// package main
+// import(
+// 	"fmt"
+// )
+// func main() {	
+// 	s := "hi my name is ......."
+// 	fmt.Printf("%v,%T\n", string(s[1]), s[1])
+// }
+
+// string can perform string concatenation. This is done by using the + operator. This is the only operator that can be used with strings. 
+// package main
+// import(
+// 	"fmt"
+// )
+// func main() {	
+// 	s1 := "hi my name is ......."
+// 	s2 := "Pallawit timalsina"
+// 	fmt.Printf("%v,%T\n", s1+s2, s1+s2)
+// }
+
+// It can be conver into slice of byte
+// package main
+// import(
+// 	"fmt"
+// )
+// func main() {	
+// 	s := "hi my name is ......."
+// 	b  :=	[]byte(s)
+// 	fmt.Printf("%v,%T\n", b, b)
+// }	
+
+// rune: if we use single quote in string it will be rune. Otherwise it will be string. This is the only difference between string and rune. The rune is the alias of int32. 
+// package main
+// import(
+// 	"fmt"
+// )
+// func main() {	
+// 	 r :='a'
+// 	fmt.Printf("%v,%T\n", r,r)
+// }
