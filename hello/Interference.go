@@ -52,29 +52,133 @@
 
 
 // using multiple interfaces
-package main
+// package main
 
-import (
-    "fmt"
-	"bytes"
-)
-//  func main(){
-// 	var wc writerCloser = NewBufferdWriter()
-// 	we.Write([]byte("Hello, GO!")) // calling the write method of the interface and passing the string as byte array
-// 	wc.Close() // calling the close method of the interface and passing the string as byte array
+// import (
+//     "bytes"
+//     "fmt"
+// )
+
+// func main() {
+//     var wc writerCloser = NewBufferedWriter() // Corrected function name
+//     wc.Write([]byte("Hello, GO!"))           // Use wc instead of we
+//     wc.Close()
 // }
-// type Writer interface{
-// 	write([]byte) (int, error)
+
+// type Writer interface {
+//     Write([]byte) (int, error) // Corrected method name to uppercase
 // }
-// type Closer interface{
-// 	close() error
+
+// type Closer interface {
+//     Close() error // Corrected method name to uppercase
 // }
-// type writerCloser interface{
-// 	Writer
-// Closer // embedding the writer and closer interface
+
+// type writerCloser interface { // composing two inteface
+//     Writer
+//     Closer // Embedding the Writer and Closer interfaces
 // }
-// type bufferedWriterCloser interface {
-// 	buffer *bytes.BUfferbuffer
-	
+
+// type bufferedWriterCloser struct { // Changed to struct
+//     buffer *bytes.Buffer
+// }
+
+// // Implement the Write method for bufferedWriterCloser
+// func (bwc *bufferedWriterCloser) Write(data []byte) (int, error) {
+//     n, err := bwc.buffer.Write(data)
+//     if err == nil {
+//         fmt.Println(string(data)) // Print the written data
+//     }
+//     return n, err
+// }
+
+// // Implement the Close method for bufferedWriterCloser
+// func (bwc *bufferedWriterCloser) Close() error {
+//     fmt.Println("Closing the buffer")
+//     return nil
+// }
+
+// // Define the NewBufferedWriter function
+// func NewBufferedWriter() *bufferedWriterCloser {
+//     return &bufferedWriterCloser{
+//         buffer: bytes.NewBuffer([]byte{}),
+//     }
+// }
+
+// type conversion
+
+// package main
+
+// import (
+//     "bytes"
+//     "fmt"
+// )
+
+// func main() {
+//     var wc writerCloser = NewBufferedWriter() // Corrected to use writerCloser
+//     wc.Write([]byte("Hello, GO!"))           // Use wc to call Write
+//     wc.Close()                               // Use wc to call Close
+
+//     // Perform type assertion to convert writerCloser to bufferedWriterCloser
+//     bwc := wc.(*bufferedWriterCloser)
+//     fmt.Printf("%T\n", bwc) // Print the type of bwc
+// }
+
+// type Writer interface {
+//     Write([]byte) (int, error) // Corrected method name to uppercase
+// }
+
+// type Closer interface {
+//     Close() error // Corrected method name to uppercase
+// }
+
+// type writerCloser interface { // Composing two interfaces
+//     Writer
+//     Closer // Embedding the Writer and Closer interfaces
+// }
+
+// type bufferedWriterCloser struct { // Changed to struct
+//     buffer *bytes.Buffer
+// }
+
+// // Implement the Write method for bufferedWriterCloser
+// func (bwc *bufferedWriterCloser) Write(data []byte) (int, error) {
+//     n, err := bwc.buffer.Write(data)
+//     if err == nil {
+//         fmt.Println(string(data)) // Print the written data
+//     }
+//     return n, err
+// }
+
+// // Implement the Close method for bufferedWriterCloser
+// func (bwc *bufferedWriterCloser) Close() error {
+//     fmt.Println("Closing the buffer")
+//     return nil
+// }
+
+// // Define the NewBufferedWriter function
+// func NewBufferedWriter() *bufferedWriterCloser {
+//     return &bufferedWriterCloser{
+//         buffer: bytes.NewBuffer([]byte{}),
+//     }
+// }
+
+
+// empty interface
+// package main
+
+// import (
+//     "fmt"
+// )
+
+// func main() {
+// 	var i interface{} =0
+// 	switch i.(type) { // var name i . type this is called a swtich type. in this type of cases switch works aas type.
+// 	case int:
+// 		fmt.Println("i is an integer number")
+// 	case string:
+// 		fmt.Println("i is a string")
+// 	default:
+// 		fmt.Println("i is of a different type")
+// 	}
 // }
 
