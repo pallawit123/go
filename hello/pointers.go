@@ -240,17 +240,17 @@
 
 // map also doesn't contain data on itself. so when we change the value in a the value in b also gets changed.
 
-package main
-import (
-	"fmt"
-	)
+// package main
+// import (
+// 	"fmt"
+// 	)
 
-func main() {
-	a := map[string]string{"foo":  "bar", "baz": "buzz"}
-	b := a
-	fmt.Println(a,b) // this will print map[foo:bar baz:buzz] map[foo:bar baz:buzz] because a and b are pointing to the same memory location. so when we change the value in a the value in b also gets changed.
-	a["foo"] ="quux"
-	fmt.Println(a,b) // this will print map[foo:quux baz:buzz] map[foo:quux baz:buzz] because a and b are pointing to the same memory location. so when we change the value in a the value in b also gets changed.
-	// so when we change the value in a the value in b also gets changed.
-}
+// func main() {
+// 	a := map[string]string{"foo":  "bar", "baz": "buzz"}
+// 	b := a
+// 	fmt.Println(a,b) // this will print map[foo:bar baz:buzz] map[foo:bar baz:buzz] because a and b are pointing to the same memory location. so when we change the value in a the value in b also gets changed.
+// 	a["foo"] ="quux"
+// 	fmt.Println(a,b) // this will print map[foo:quux baz:buzz] map[foo:quux baz:buzz] because a and b are pointing to the same memory location. so when we change the value in a the value in b also gets changed.
+// 	// so when we change the value in a the value in b also gets changed.
+// }
 	
