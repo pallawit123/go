@@ -152,3 +152,113 @@
 // 	wg.Wait()
 // }
 
+// package main
+
+// import(
+
+// 	"fmt"
+// 	"sync"
+// )
+
+// var wg = sync.WaitGroup{}
+
+// func main(){
+
+// 	ch := make(chan int)
+// 	wg.Add(2)
+
+
+// 	go func(ch<-chan int){ // recieving data from the channel
+// 		i := <-ch
+// 		fmt.Println(i)
+// 		wg.Done()
+// 	}(ch)
+	
+// 	go func(ch chan<- int){ // sending data to the channel
+// 		ch<-42
+// 		ch <-27
+// 		wg.Done()
+// 	}(ch)
+// 	wg.Wait()
+// }
+
+// in this code we got deadlock because  there is nothing to  do with the msg ch <-27 so application blowsup and the go routine never completes so tosolvethis we use buffer while defining channel like in this way
+
+// package main
+
+// import(
+
+// 	"fmt"
+// 	"sync"
+// )
+
+// var wg = sync.WaitGroup{}
+
+// func main(){
+
+// 	ch := make(chan int , 50) // Create a buffered channel of type int with a buffer size of 50
+// 	// this means that the channel can hold up to 50 values before it blocks. this allows for more efficient communication between goroutines, as they can work independently without blocking each other.	
+// 	wg.Add(2)
+
+
+// 	go func(ch<-chan int){ // recieving data from the channel
+// 		 i := <-ch
+// 		fmt.Println(i)
+// 		i = <-ch
+// 		fmt.Println(i)
+// 		wg.Done()
+// 	}(ch)
+	
+// 	go func(ch chan<- int){ // sending data to the channel
+// 		ch<-42
+// 		ch  <-27 // this is the process of sending the data to the channel by <- operator. in this channel is data is sending to the channel so the head of operator is toward at the channel where as when data is receiving from the channel the head of operator is toward at the variable where data is receiving.
+// 		wg.Done()
+// 	}(ch)
+// 	wg.Wait()
+// }
+
+// doing buffer the message ch <-27 is lost. this problem is handles above but this  is not the best way to handle this problem so so solve this using looping contruct
+package main
+
+import(
+
+	"fmt"
+	"sync"
+)
+
+var wg = sync.WaitGroup{}
+
+func main(){
+
+	ch := make(chan int , 50) // Create a buffered channel of type int with a buffer size of 50
+	// this means that the channel can hold up to 50 values before it blocks. this allows for more efficient communication between goroutines, as they can work independently without blocking each other.	
+	wg.Add(2)
+	go func(ch<-chan int){ // recieving data from the channel
+		for i := range ch { // using range to receive data from the channel until it is closed
+			fmt.Println(i) // Print the received value
+		}
+		wg.Done() // Decrement the WaitGroup counter when the goroutine is done
+	}(ch)
+
+
+	go func(ch<-chan int){ // recieving data from the channel
+		 i  := <-ch            // is we use looping contruct the first data will be index and second will be variable
+		fmt.Println(i)
+		i = <-ch
+		fmt.Println(i)
+		wg.Done()
+	}(ch)
+	
+	go func(ch chan<- int){ // sending data to the channel
+		ch<-42
+		ch  <-27 // this is the process of sending the data to the channel by <- operator. in this channel is data is sending to the channel so the head of operator is toward at the channel where as when data is receiving from the channel the head of operator is toward at the variable where data is receiving.
+		close(ch) // Close the channel to signal that no more data will be sent
+		// this is important because the receiving goroutine will block until the channel is closed, so it will not exit until the channel is closed. if the channel is not closed, the receiving goroutine will block forever and the program will hang.
+		wg.Done()
+	}(ch)
+	wg.Wait()
+}
+
+// if we close all botht he channel we will get a panic in the program because the channel is closed and we are trying to send data to the channel. this is not allowed in go. so we need to close the channel only when we are done sending data to the channel. this is important because the receiving goroutine will block until the channel is closed, so it will not exit until the channel is closed. if the channel is not closed, the receiving goroutine will block forever and the program will hang.
+// so we need to close the channel only when we are done sending data to the channel. this is important because the receiving goroutine will block until the channel is closed, so it will not exit until the channel is closed. if the channel is not closed, the receiving goroutine will block forever and the program will hang.
+
